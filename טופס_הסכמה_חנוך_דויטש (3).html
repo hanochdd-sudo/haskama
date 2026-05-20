@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>הסכמה מדעת – חנוך דויטש</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
+:root {
+  --blue:#1a3a5c; --blue2:#2d5f8a; --accent:#e8a020;
+  --bg:#f4f7fa; --white:#fff; --border:#d0dbe8;
+  --text:#1e2d3d; --muted:#6b7f94; --green:#2e7d5e;
+  --r:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+.header{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:24px 20px 18px;text-align:center;}
+.logo-ring{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:22px;}
+.header h1{font-size:18px;font-weight:700;margin-bottom:3px;}
+.header p{font-size:12px;opacity:.8;}
+
+.container{padding:14px;max-width:520px;margin:0 auto;}
+
+.card{background:#fff;border-radius:var(--r);margin-bottom:12px;overflow:hidden;box-shadow:0 1px 5px rgba(0,0,0,.07);}
+.card-head{background:var(--blue);color:#fff;padding:9px 15px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;}
+.card-head .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.card-body{padding:14px;}
+
+.field{margin-bottom:12px;}
+.field:last-child{margin-bottom:0;}
+.field label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
+.field input,.field textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Heebo',sans-serif;font-size:15px;color:var(--text);background:#fafcff;-webkit-appearance:none;transition:border-color .2s;}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--blue2);background:#fff;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.req{color:#c0392b;}
+
+.info-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #eef2f7;}
+.info-item:last-child{border-bottom:none;padding-bottom:0;}
+.info-num{font-weight:700;color:var(--blue2);font-size:13px;flex-shrink:0;width:18px;}
+.info-text{font-size:13px;line-height:1.65;}
+.bullets{margin-top:4px;padding-right:4px;}
+.bi{font-size:13px;padding:2px 14px 2px 0;position:relative;line-height:1.5;}
+.bi::before{content:'•';position:absolute;right:0;color:var(--blue2);font-weight:700;}
+
+.chk-row{display:flex;align-items:flex-start;gap:14px;padding:13px;background:#f0f5fb;border-radius:9px;border:2px solid var(--border);cursor:pointer;transition:border-color .2s,background .2s;-webkit-tap-highlight-color:transparent;margin-bottom:10px;}
+.chk-row:last-child{margin-bottom:0;}
+.chk-row.checked{background:#e6f3ec;border-color:var(--green);}
+.chk-box{width:26px;height:26px;flex-shrink:0;border-radius:6px;border:2px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:background .2s,border-color .2s;}
+.chk-row.checked .chk-box{background:var(--green);border-color:var(--green);}
+.chk-box svg{display:none;}
+.chk-row.checked .chk-box svg{display:block;}
+.chk-text{font-size:14px;line-height:1.6;user-select:none;}
+.chk-row input[type=checkbox]{position:absolute;opacity:0;width:0;height:0;}
+
+.sig-wrap{border:2px dashed var(--border);border-radius:8px;overflow:hidden;background:#fafcff;position:relative;}
+.sig-wrap canvas{display:block;width:100%;height:130px;cursor:crosshair;touch-action:none;}
+.sig-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#c0cdd8;font-size:13px;pointer-events:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.btn-clear{font-family:'Heebo',sans-serif;font-size:13px;padding:7px 14px;border-radius:6px;border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;margin-top:8px;}
+.date-line{font-size:13px;color:var(--muted);margin-top:10px;}
+
+.err{background:#fff0f0;border:1px solid #f5c6c6;color:#c0392b;border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:10px;display:none;}
+
+.submit-btn{width:100%;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;border-radius:var(--r);padding:15px;font-family:'Heebo',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:28px;box-shadow:0 4px 14px rgba(26,58,92,.3);transition:opacity .2s;}
+.submit-btn:active{opacity:.85;}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;}
+
+#success{display:none;text-align:center;padding:40px 20px;}
+.s-icon{width:70px;height:70px;border-radius:50%;background:#e6f3ec;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:32px;}
+#success h2{font-size:20px;color:var(--blue);margin-bottom:8px;}
+#success p{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:12px;}
+.wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;border:none;border-radius:9px;padding:13px 24px;font-family:'Heebo',sans-serif;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;margin-top:4px;}
+
+.spinner{display:none;width:22px;height:22px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-ring">🛡️</div>
+  <h1>חנוך דויטש – סוכן ביטוח</h1>
+  <p>הסכמה מדעת לפי חוק הגנת הפרטיות, תיקון מס' 13</p>
+</div>
+
+<div id="form-screen">
+<div class="container">
+
+  <!-- א -->
+  <div class="card">
+    <div class="card-head"><div class="dot"></div>א. פרטי הלקוח</div>
+    <div class="card-body">
+      <div class="row2">
+        <div class="field"><label>שם מלא <span class="req">*</span></label><input type="text" id="f-name" name="שם_מלא" placeholder="ישראל ישראלי"></div>
+        <div class="field"><label>מספר ת.ז. <span class="req">*</span></label><input type="tel" id="f-id" name="תעודת_זהות" placeholder="000000000" maxlength="9"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>טלפון <span class="req">*</span></label><input type="tel" id="f-phone" name="טלפון" placeholder="050-0000000"></div>
+        <div class="field"><label>דוא"ל</label><input type="email" id="f-email" name="דואל" placeholder="your@email.com"></div>
+      </div>
+      <div class="field"><label>כתובת</label><input type="text" id="f-addr" name="כתובת" placeholder="רחוב, עיר"></div>
+    </div>
+  </div>
+
+  <!-- ב -->
+  <div class="card">
+    <div class="card-head"><div class="dot"></div>ב. הודעת יידוע – סעיף 11 לחוק</div>
+    <div class="card-body">
+      <div class="info-item"><div class="info-num">1.</div><div class="info-text"><strong>בעל השליטה:</strong> חנוך דויטש, סוכן ביטוח, ת.ז. 052863933, מעלה הרדוף 32, רמת ישי. דוא"ל: hanoch@hd-ins.co.il</div></div>
+      <div class="info-item"><div class="info-num">2.</div><div class="info-text"><strong>מטרות העיבוד:</strong><div class="bullets"><div class="bi">מתן שירותי תיווך ביטוחי וניהול פוליסות</div><div class="bi">בחינת סיכונים, חישוב פרמיות וקביעת תנאי כיסוי</div><div class="bi">טיפול בתביעות ומתן שירות שוטף</div><div class="bi">עמידה בדרישות רגולטוריות ודיווח לרשות שוק ההון</div></div></div></div>
+      <div class="info-item"><div class="info-num">3.</div><div class="info-text"><strong>חובה או מרצון:</strong> חלק מהמידע נדרש לפי חוק הפיקוח על שירותים פיננסיים. יתרת המידע נמסרת מרצונך.</div></div>
+      <div class="info-item"><div class="info-num">4.</div><div class="info-text"><strong>תוצאת אי-מסירה:</strong> עשויה למנוע עריכת הביטוח המבוקש.</div></div>
+      <div class="info-item"><div class="info-num">5.</div><div class="info-text"><strong>העברה לצדדים שלישיים:</strong> חברות ביטוח, מבטחי-משנה, שמאים, רשות שוק ההון, ספקי מחשוב – בכפוף להסכמי סודיות.</div></div>
+      <div class="info-item"><div class="info-num">6.</div><div class="info-text"><strong>זכויותיך (עיון, תיקון, מחיקה):</strong> לפנות לדוא"ל <a href="mailto:hanoch@hd-ins.co.il" style="color:var(--blue2)">hanoch@hd-ins.co.il</a> או בכתב למעלה הרדוף 32, רמת ישי.</div></div>
+    </div>
+  </div>
+
+  <!-- ג -->
+  <div class="card">
+    <div class="card-head"><div class="dot"></div>ג. מדיניות שמירת מידע ואבטחה</div>
+    <div class="card-body">
+      <div class="info-text" style="font-size:13px;">המידע יישמר בהתאם לתקנות הגנת הפרטיות (אבטחת מידע), תשע"ז-2017, למשך התקופה הנדרשת לפי דין, ולא יעובד למטרות אחרות ללא הסכמתך מחדש.</div>
+    </div>
+  </div>
+
+  <!-- ד -->
+  <div class="card">
+    <div class="card-head"><div class="dot"></div>ד. הצהרת הסכמה מדעת <span class="req" style="margin-right:4px;">*</span></div>
+    <div class="card-body">
+      <div class="chk-row" id="w-consent" onclick="toggle('cb-consent','w-consent')">
+        <input type="checkbox" id="cb-consent">
+        <div class="chk-box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,7 6,11 12,3" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chk-text">קראתי את הודעת היידוע לעיל במלואה והבנתי את תוכנה.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ה -->
+  <div class="card">
+    <div class="card-head"><div class="dot"></div>ה. הסכמה ליצירת קשר לצרכי שיווק</div>
+    <div class="card-body">
+      <div class="chk-row" id="w-mkt" onclick="toggle('cb-mkt','w-mkt')">
+        <input type="checkbox" id="cb-mkt">
+        <div class="chk-box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,7 6,11 12,3" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chk-text">אני מסכים/ה לקבל פניות שיווקיות בנושאי ביטוח מחנוך דויטש ומצדדים שלישיים כדוגמת חברות ביטוח, בכל אמצעי תקשורת.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ו -->
+  <div class="card">
+    <div class="card-head"><div class="dot"></div>ו. חתימה <span class="req" style="margin-right:4px;">*</span></div>
+    <div class="card-body">
+      <div class="sig-wrap">
+        <canvas id="sig-canvas"></canvas>
+        <div class="sig-hint" id="sig-hint">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a3a5c" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          חתום כאן באצבע
+        </div>
+      </div>
+      <button class="btn-clear" type="button" onclick="clearSig()">🗑 נקה חתימה</button>
+      <div class="date-line">תאריך: <strong id="today"></strong></div>
+    </div>
+  </div>
+
+  <div class="err" id="err">יש למלא שם, ת.ז. וטלפון, לסמן את תיבת ההסכמה ולחתום.</div>
+  <button class="submit-btn" id="submit-btn" onclick="submitForm()">✓ אישור וחתימה</button>
+
+</div>
+</div>
+
+<!-- הצלחה -->
+<div id="success">
+  <div class="s-icon">✅</div>
+  <h2>תודה! הטופס הושלם</h2>
+  <p id="s-text"></p>
+  <div style="background:#fff;border-radius:12px;padding:18px;margin:16px 0;box-shadow:0 1px 5px rgba(0,0,0,.08);text-align:right;">
+    <p style="font-size:14px;font-weight:700;color:var(--blue);margin-bottom:10px;">📲 כעת שלח לחנוך ב-2 שלבים:</p>
+    <div style="font-size:14px;color:var(--text);line-height:2;">
+      <div>1️⃣ <strong>צלם את המסך הזה</strong> (לחץ על כפתורי הדף + עוצמת קול)</div>
+      <div>2️⃣ <strong>שלח את הצילום</strong> לחנוך ב-WhatsApp:</div>
+    </div>
+  </div>
+  <a id="wa-link" class="wa-btn" href="#" target="_blank">
+    <svg width="20" height="20" viewBox="0 0 32 32" fill="white"><path d="M16 3C9 3 3 9 3 16c0 2.4.7 4.7 1.9 6.6L3 29l6.6-1.7C11.4 28.4 13.6 29 16 29c7 0 13-6 13-13S23 3 16 3zm6.5 18.3c-.3.8-1.5 1.5-2.1 1.6-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-5-4.3-5.1-4.5-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5.2.5.8 1.9.9 2 .1.2.1.4 0 .6-.1.2-.2.3-.3.5-.1.2-.3.4-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.3 2.5 1.5.3.1.5.1.7-.1.2-.2.8-.9 1-1.3.2-.3.4-.3.7-.2.3.1 1.9.9 2.2 1.1.3.2.5.3.6.4.1.3.1 1-.2 1.8z"/></svg>
+    פתח WhatsApp לחנוך דויטש
+  </a>
+  <p style="font-size:12px;color:#aaa;margin-top:14px;">הפרטים שלך נשארים אצלך בלבד — לא נשמרים בשום שרת.</p>
+</div>
+
+<script>
+// תאריך
+const d = new Date();
+const dateStr = d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'});
+document.getElementById('today').textContent = dateStr;
+
+// Checkbox
+function toggle(cbId, wrapId) {
+  const cb = document.getElementById(cbId);
+  cb.checked = !cb.checked;
+  document.getElementById(wrapId).classList.toggle('checked', cb.checked);
+}
+
+// Signature
+const canvas = document.getElementById('sig-canvas');
+const ctx = canvas.getContext('2d');
+let drawing = false, hasSig = false;
+
+function resize() {
+  const w = canvas.parentElement.getBoundingClientRect().width;
+  canvas.width = w; canvas.height = 130;
+  ctx.strokeStyle='#1a3a5c'; ctx.lineWidth=2.2; ctx.lineCap='round'; ctx.lineJoin='round';
+}
+resize();
+window.addEventListener('resize', resize);
+
+function getPos(e) {
+  const r = canvas.getBoundingClientRect();
+  const s = e.touches ? e.touches[0] : e;
+  return {x: s.clientX - r.left, y: s.clientY - r.top};
+}
+canvas.addEventListener('mousedown',  e => { drawing=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); document.getElementById('sig-hint').style.display='none'; });
+canvas.addEventListener('mousemove',  e => { if(!drawing) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); hasSig=true; });
+canvas.addEventListener('mouseup',    () => drawing=false);
+canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); document.getElementById('sig-hint').style.display='none'; },{passive:false});
+canvas.addEventListener('touchmove',  e => { e.preventDefault(); if(!drawing) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); hasSig=true; },{passive:false});
+canvas.addEventListener('touchend',   () => drawing=false);
+
+function clearSig() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  hasSig=false;
+  document.getElementById('sig-hint').style.display='flex';
+}
+
+// Submit → Formspree
+async function submitForm() {
+  const name    = document.getElementById('f-name').value.trim();
+  const idNum   = document.getElementById('f-id').value.trim();
+  const phone   = document.getElementById('f-phone').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const addr    = document.getElementById('f-addr').value.trim();
+  const consent = document.getElementById('cb-consent').checked;
+  const mkt     = document.getElementById('cb-mkt').checked;
+  const err     = document.getElementById('err');
+
+  if (!name || !idNum || !phone || !consent || !hasSig) {
+    err.style.display='block';
+    err.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  err.style.display='none';
+
+  const sigData = canvas.toDataURL('image/png');
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="display:block;margin:0 auto;"></div>';
+
+  const payload = {
+    שם_מלא:         name,
+    תעודת_זהות:     idNum,
+    טלפון:          phone,
+    דואל_לקוח:      email || '—',
+    כתובת:          addr  || '—',
+    תאריך:          dateStr,
+    הסכמה_מדעת:     consent ? 'כן ✓' : 'לא',
+    הסכמה_שיווקית:  mkt     ? 'כן ✓' : 'לא ✗',
+    חתימה_תמונה:    sigData,
+    _subject:        `הסכמה מדעת חדשה – ${name}`,
+    _replyto:        email || 'noreply@form.com',
+  };
+
+  try {
+    // ← כאן תחליף YOUR_FORM_ID בקוד שתקבל מ-Formspree
+    const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      document.getElementById('form-screen').style.display='none';
+      document.getElementById('success').style.display='block';
+      document.getElementById('s-text').textContent =
+        `${name} (ת.ז. ${idNum}) מילא/ה את הטופס בתאריך ${dateStr}.` +
+        (mkt ? ' כולל הסכמה שיווקית.' : '');
+      window.scrollTo(0,0);
+    } else {
+      throw new Error();
+    }
+  } catch(e) {
+    btn.disabled=false;
+    btn.innerHTML='✓ אישור וחתימה';
+    alert('אירעה שגיאה בשליחה. אנא נסה שוב.');
+  }
+}
+</script>
+</body>
+</html>
